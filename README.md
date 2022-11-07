@@ -6,3 +6,5 @@ The code is hard to read and especially the parameters so I'd recommend sticking
 
 ## Code
 Run the 'Example Run' to use the algorithm.
+
+The codebase includes a Python implementation of standard DiscreteOptimization (with all possible parameters) and the extension introduced in our paper
