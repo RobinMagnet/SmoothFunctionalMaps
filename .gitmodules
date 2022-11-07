@@ -1,0 +1,6 @@
+[submodule "pyFM"]
+	path = pyFM
+	url = https://github.com/RobinMagnet/pyFM.git
+[submodule "VisualizationTools"]
+	path = VisualizationTools
+	url = https://github.com/RobinMagnet/VisualizationTools.git
