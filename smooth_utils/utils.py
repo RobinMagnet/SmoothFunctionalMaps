@@ -68,6 +68,30 @@ def _do_sp_param(method):
 
             "couple_weight": 1,  # weight for coupling
             "bij_weight": 1,  # weight for bijective energy
+            "conf_weight": 1,
+
+            'orth_coupling': True,  # Whether to use orthogonal coupling instead of standard coupling. Only if very isometric
+
+            "normalize_terms": False,
+            "only_coupling_for_nn": False,
+
+            "conformal_energy": False
+            }
+
+    elif method == "all":
+        sp_params = {
+            "use_bij": True,  # Use bijective energy
+
+            "simple_energy": True,  # Only use coupling for FM computation (+ bij if here but ignore all other terms)
+            "bij_only": True,  # Only coupling + bij in all energy.
+
+            "simple_weights": True,  # Simpler weighting for FM computation (only if only bij+coupling)
+
+            "orthogonal_FM": False,  # Outputs an orthogonal functional map, not recommended unless isometric shapes
+
+            "couple_weight": 1,  # weight for coupling
+            "bij_weight": 1,  # weight for bijective energy
+            "bij_weight": 1,  # weight for bijective energy
 
             'orth_coupling': True,  # Whether to use orthogonal coupling instead of standard coupling. Only if very isometric
 
@@ -99,7 +123,7 @@ def _base_sm_params(method):
 
                     }
 
-    elif method == "exact":
+    elif method in ["exact", "dirichlet"]:
         sm_params = {
                     'smooth_weight': 1e-3,
                     'couple_weight':  1e0,
