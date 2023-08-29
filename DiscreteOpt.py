@@ -182,7 +182,7 @@ class DiscreteOptimization():
                 self.solve_p2p_12(n_jobs=n_jobs)
 
 
-class SmoothDiscreteOptimization2(DiscreteOptimization):
+class SmoothDiscreteOptimization(DiscreteOptimization):
     """
     This class extends the DiscreteOptimization class with primal energies
     """
@@ -311,7 +311,7 @@ class SmoothDiscreteOptimization2(DiscreteOptimization):
         p2p_21 : (n2,) array - initial map from mesh2 to mesh1
         """
         # Use the function from the DiscreteOptimization class
-        super()._initialize(p2p_21=None, p2p_12=None)
+        super()._initialize(p2p_21=p2p_21, p2p_12=p2p_12)
 
         self.Y_12 = None
         self.Y_21 = None
