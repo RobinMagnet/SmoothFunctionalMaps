@@ -68,7 +68,7 @@ def _do_sp_param(method):
 
             "couple_weight": 1,  # weight for coupling
             "bij_weight": 1,  # weight for bijective energy
-            "conf_weight": 1,
+            "conf_weight": 0,
 
             'orth_coupling': True,  # Whether to use orthogonal coupling instead of standard coupling. Only if very isometric
 
@@ -332,7 +332,7 @@ def get_spectral_descr_emb(mesh1, mesh2, FM_12, params=None):
     descr1 = mesh1.project(f1, k=k1)
     descr2 = mesh2.project(f2, k=k2)
 
-    emb_descr_21 = emb.conformal_emb(FM_12, descr1, descr2, mesh1, mesh2, normalize=params["normalize_terms"])  # (n1, k2), (n2, k2)
+    emb_descr_21 = emb.descriptor_emb(FM_12, descr1, descr2, mesh1, mesh2, normalize=params["normalize_terms"])  # (n1, k2), (n2, k2)
 
     return emb_descr_21
 
