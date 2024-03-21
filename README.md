@@ -6,6 +6,13 @@ This repository implements the following two papers:
 
 The repository is now in version 1.0.0 where all features from both papers are implemened.
 
+## Dependencies and install
+
+If you have [pyfmaps](https://github.com/RobinMagnet/pyFM) installed, you can remove the `pyFM` repo here.
+Else clone using
+```
+git clone --recurse-submodules https://github.com/RobinMagnet/smoothFM.git
+```
 
 ## Code
 Run the `Example Notebook.ipynb' for instructions on how to use the algorithms.
