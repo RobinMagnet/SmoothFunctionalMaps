@@ -1,0 +1,49 @@
+sp_params:
+  couple_weight: 1 # Weight of the coupling energy 
+  bij_weight: 1  # Weight of the bijective energy
+  conf_weight: 0 # Weight of the conformal energy
+  descr_weight: 0 # weight of the descriptor energy
+
+
+  global_reweight: .25 # Global reweighting of the energy terms
+  orth_coupling: False # Whether to use coupling with orhtogonal energy rather than standazrd coupling
+
+  orthogonal_FM: False # Whether to force the functional map to be orthogonal
+
+  simple_energy: False # Ignore weighting of bijectivity when computing the functional map (recommended)
+
+  normalize_terms: True # Whether to normalize the energy terms
+
+  #### THIS IS FILLED BY THE ALGO
+  # meta_info:
+  #    FM_type:
+  #    emb_type: 
+
+opt_params:
+  # Optimization parameters
+  k_init: 10 # Initial number of eigenfunctions
+  nit: 10 # Number of iterations
+  step: 5 # Step for the number of eigenfunctions
+  n_inner: 5 # Number of inner iterations
+  k_max: null # Maximum number of eigenfunctions
+  log_space: True # Whether to use a logarithmic space for the number of eigenfunctions
+
+
+sm_params:
+  smooth_weight: 1e2
+  couple_weight: 1e0 # Weight of the coupling energy
+  bij_weight: 0  # Weight of the bijective energy, ONLY FOR RHM
+
+  sm_weight_range: [1.5e-1, 1.5]
+  normalize_terms: True # Whether to normalize the energy terms
+  
+  # global_reweight: 1 # Global reweighting of the energy terms
+
+  only_coupling_for_nn: True # Whether to use only the coupling energy for the nearest neighbors
+
+  # Method of smoothing
+  method: 'arap'
+  # Parameters of the method
+  method_params:
+    nit: 1
+

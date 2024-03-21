@@ -9,12 +9,12 @@ def coupling_emb(FM_12, mesh1, mesh2, normalize=False):
     evects1 = mesh1.eigenvectors[:, :k1].copy()  # (n1, k1)
     evects2 = mesh2.eigenvectors[:, :k2]  # (n2, k2)
 
-    term1 = evects1  # (n1, k2)
-    term2 = evects2 @ FM_12  # (n2, k2)
+    term1 = evects1  # (n1, k1)
+    term2 = evects2 @ FM_12  # (n2, k1)
 
     if normalize:
-        term1 /= np.sqrt(k2)
-        term2 /= np.sqrt(k2)
+        term1 = term1 / np.sqrt(k1)
+        term2 = term2 / np.sqrt(k1)
 
     return term1, term2
 
@@ -37,7 +37,7 @@ def orthogonal_emb(FM_12, mesh1, mesh2, normalize=False):
     return term1, term2
 
 
-def bijectivity_emb(FM_12, FM_21, mesh1, mesh2, normalize=False):
+def bijectivity_emb(FM_21, mesh1, mesh2, normalize=False):
     """
     Compute terms A1, B1, A2, 2 so that the term :
 
@@ -55,7 +55,7 @@ def bijectivity_emb(FM_12, FM_21, mesh1, mesh2, normalize=False):
 
     Parameters:
     -------------------------
-    FM_12  : (k2, k1) functional map from mesh1 to mesh2
+    ### NOT ANYMORE FM_12  : (k2, k1) functional map from mesh1 to mesh2
     FM_21  : (k1, k2) functional map from mesh1 to mesh2
     mesh1  : TriMesh - source mesh for the functional map F_12
     mesh2  : TriMesh - target mesh for the functional map F_12
@@ -65,11 +65,11 @@ def bijectivity_emb(FM_12, FM_21, mesh1, mesh2, normalize=False):
     -------------------------
     A1      : (n1, k2) term A in (2)
     B1      : (n2, k2) term B in (2)
-    A2      : (n2, k1) term A in (3)
-    B2      : (n1, k1) term B in (3)
+    ### NOT ANYMORE A2      : (n2, k1) term A in (3)
+    ### NOT ANYMORE B2      : (n1, k1) term B in (3)
     """
 
-    k2, k1 = FM_12.shape
+    k1, k2 = FM_21.shape
 
     evects1 = mesh1.eigenvectors[:, :k1]  # (n1, k1)
     evects2 = mesh2.eigenvectors[:, :k2].copy()  # (n2, k2)
@@ -81,8 +81,8 @@ def bijectivity_emb(FM_12, FM_21, mesh1, mesh2, normalize=False):
     term2 = evects2  # (n2, k2)
 
     if normalize:
-        term1 /= np.sqrt(k2)
-        term2 /= np.sqrt(k2)
+        term1 = term1 / np.sqrt(k2)
+        term2 = term2 / np.sqrt(k2)
 
     # term1_12 = evects2 @ FM_12  # (n2, k1)
     # term2_12 = evects1  # (n1, k1)
@@ -132,8 +132,8 @@ def conformal_emb(FM_12, mesh1, mesh2, normalize=False):
     term2 = evects2 * evals2[None, :]  # (n2, k2)
 
     if normalize:
-        term1 /= np.sqrt(k2)
-        term2 /= np.sqrt(k2)
+        term1 = term1 / np.sqrt(k2)
+        term2 = term2 / np.sqrt(k2)
 
     return term1, term2
 
@@ -176,8 +176,8 @@ def descriptor_emb(FM_12, descr1, descr2, mesh1, mesh2, normalize=False):
     term2 = evects2 @ descr2  # (n2, p)
 
     if normalize:
-        term1 /= np.sqrt(p)
-        term2 /= np.sqrt(p)
+        term1 = term1 / np.sqrt(p)
+        term2 = term2 / np.sqrt(p)
 
     return term1, term2
 
@@ -189,20 +189,38 @@ def coupling_emb_spatial(Y_21, mesh1, mesh2, normalize=False):
 
     if normalize:
         factor = np.sqrt(mesh2.l2_sqnorm(Y_21).sum())
-        term1 /= factor
-        term2 /= factor
+        term1 = term1 / factor
+        term2 = term2 / factor
 
     return term1, term2
 
 
 def bijectivity_emb_spatial(Y_21, Y_12, mesh1, mesh2, normalize=False):
+    """
+    Compute terms A and B so that the term :
+    
+                         ||T_21 Y_12 - X_2||_1^2        (1)
 
-    term1 = Y_12.copy()
-    term2 = mesh2.vertlist.copy()
+    will lead to an optimization problem of the form
+
+                min_{T_21} ||T_21 A - B||_1^2      (2)
+
+    which can later be solved by  ```knn_query(A, B)```
+
+    Parameters:
+    -------------------------
+    Y_21   : (n2, k) primal map from mesh2 to mesh1
+    """
+
+    term1 = Y_12.copy()  # (n1, p)
+    term2 = mesh2.vertlist.copy()  # (n2, p)
 
     if normalize:
         factor = np.sqrt(mesh2.l2_sqnorm(Y_21).sum())
-        term1 /= factor
-        term2 /= factor
+        # Y_21_area = A2@Y_21 if A2.ndim == 2 else A2[:, None]@Y_21
+        # factor = np.einsum('np,np->p', Y_21, A2@Y_21 if A2.ndim == 2 else A2[:, None]@Y_21)
+        # factor = np.sqrt(np.einsum('np,np->p', Y_21, Y_21_area)).sum()
+        term1 = term1 / factor
+        term2 = term2 / factor
 
     return term1, term2

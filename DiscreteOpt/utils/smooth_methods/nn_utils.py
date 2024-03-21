@@ -1,16 +1,8 @@
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 
-try:
-    import pynndescent
-    index = pynndescent.NNDescent(np.random.random((100, 3)), n_jobs=2)
-    del index
-    ANN = True
-except ImportError:
-    ANN = False
 
-
-def knn_query(X, Y, k=1, return_distance=False, use_ANN=False, n_jobs=1):
+def knn_query(X, Y, k=1, return_distance=False, n_jobs=1):
     """
     Query nearest neighbors.
 
@@ -28,13 +20,10 @@ def knn_query(X, Y, k=1, return_distance=False, use_ANN=False, n_jobs=1):
     dists   : (n2,k) or (n2,) if k=1 - ONLY if return_distance is False. Nearest neighbor distance.
     matches : (n2,k) or (n2,) if k=1 - nearest neighbor
     """
-    if use_ANN and ANN:
-        index = pynndescent.NNDescent(X, n_jobs=n_jobs)
-        matches, dists = index.query(Y, k=k)  # (n2,1)
-    else:
-        tree = NearestNeighbors(n_neighbors=k, leaf_size=40, algorithm="kd_tree", n_jobs=n_jobs)
-        tree.fit(X)
-        dists, matches = tree.kneighbors(Y)
+
+    tree = NearestNeighbors(n_neighbors=k, leaf_size=40, algorithm="kd_tree", n_jobs=n_jobs)
+    tree.fit(X)
+    dists, matches = tree.kneighbors(Y)
 
     if k == 1:
         dists = dists.squeeze()
