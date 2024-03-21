@@ -174,8 +174,8 @@ class SmoothDiscreteOptimization:
         """
         Initializes the pointwise maps from mesh2 to mesh1 and from mesh1 to mesh2
         """
-        self.p2p_21_init = p2p_21.copy()
-        self.p2p_12_init = p2p_12.copy()
+        self.p2p_21_init = p2p_21.copy() if p2p_21 is not None else self.p2p_21_init
+        self.p2p_12_init = p2p_12.copy() if p2p_12 is not None else self.p2p_12_init
 
     def _initialize_p2p(self, p2p_21=None, p2p_12=None):
         """

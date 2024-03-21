@@ -1,1 +1,2 @@
 from .DiscreteOptimizer import DiscreteOptimization
+from .SmoothDiscreteOptimizer import SmoothDiscreteOptimization
