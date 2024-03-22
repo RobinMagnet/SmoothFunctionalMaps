@@ -21,3 +21,5 @@ The code relies on the use of yaml config files, see in [this directory](./Discr
 
 ## Documentation
 Better Documentation is on its way. This repo will eventually be merged in the [pyFM](https://github.com/RobinMagnet/pyFM) repo.
+
+I am yet unsure if this produces *exactly* the same results as the on shown on the "*Smooth NonRigid Shape Matching via Effective Dirichlet Energy Optimization*" paper. Please use the [v0.1.0](https://github.com/RobinMagnet/SmoothFunctionalMaps/tree/0.1) if you want to obtain exactly the results.
